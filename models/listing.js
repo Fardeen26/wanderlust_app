@@ -1,5 +1,6 @@
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const Review = require("./review.js");
 
 const listingSchema = new Schema({
     title: {
@@ -10,10 +11,8 @@ const listingSchema = new Schema({
         type: String,
     },
     image: {
-        type: String,
-        default: "https://images.unsplash.com/photo-1632152683081-28923830268d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80",
-
-        set: (v) => v === "" ? "https://images.unsplash.com/photo-1632152683081-28923830268d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80" : v,
+        url: String,
+        filename: String,
     },
     price: {
         type: Number,
@@ -23,7 +22,28 @@ const listingSchema = new Schema({
     },
     country: {
         type: String,
-    }
+    },
+    reviews: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: "Review",
+        }
+    ],
+    owner: {
+        type:Schema.Types.ObjectId,
+        ref: "User",
+    },
+    catagory: {
+        type:String,
+        enum: ["Trending", "Pool", "Rooms", "Tropical", "Beachfront", "Cave", "Hotel", "historical", "Tower", "Houseboat", "food", "location", "none"],
+        required: true,
+    },
+});
+
+listingSchema.post("findOneAndDelete", async (listing) => {
+    if (listing) {
+         await Review.deleteMany({ _id: { $in: listing.reviews} });
+     }
 });
 
 const Listing = mongoose.model("Listing", listingSchema);

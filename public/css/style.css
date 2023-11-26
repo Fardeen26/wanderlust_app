@@ -54,31 +54,37 @@ body {
 .listing-link {
     text-decoration: none;
 }
-.card {
+
+.listing-card {
     border: none !important;
     margin-bottom: 2rem;
 }
 
-.card-img-top {
+.listing-card-img-top {
     border-radius: 1rem !important;
     width: 100% !important;
     object-fit: cover !important;
 }
 
-.card-body {
+.listing-card-body {
     padding: 0 !important;
 }
 
-.card-text-p {
+.listing-card-text-p {
     font-weight: 500 !important;
 }
 
+.listing-card-text-show {
+    margin-top: -10px !important;    
+}
+
+
 /* CARD OVERLAY */
 
-.card-img-overlay {
+.listing-card-img-overlay {
     opacity: 0;
 }
-.card-img-overlay:hover {
+.listing-card-img-overlay:hover {
     opacity: 0.2;
     background-color: #000;
 }
@@ -96,4 +102,11 @@ body {
 
 .btns {
     display: flex;
+}
+
+/* Map  */
+
+#map{
+    height: 500px;
+    width: 500px;
 }

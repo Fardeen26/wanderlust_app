@@ -1,15 +1,54 @@
+<style> 
+    .d-flex {
+        margin-left: 250px;
+        margin-top: 3px;
+    }
+    .btn-outline-search {
+        background-color: #fe424d;
+        color: white;
+        border: 1px solid #fe424d;
+        font-size: 13px !important;
+        border-radius: 25px;
+        padding: 0 1rem 0 1rem;
+    }
+
+    .btn-outline-search:hover {
+        border: 1px solid #000;
+    }
+
+    .search-input {
+        width: 25vw;
+        border-radius: 25px;
+    }
+</style>
+
 <nav class="navbar navbar-expand-md bg-body-light border-bottom sticky-top z-2">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#"><i class="fa-solid fa-compass-drafting"></i></a>
+        <a class="navbar-brand" href="/listings"><i class="fa-solid fa-compass-drafting"></i></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
             aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-                <a class="nav-link" aria-current="page" href="/">Home</a>
-                <a class="nav-link" href="/listings">All Listings</a>
-                <a class="nav-link" href="/listings/new">Add New Listing</a>
+                <a class="nav-link" aria-current="page" href="/listings">Home</a>
+                <a class="nav-link" href="/listings">Explore Listings</a>
+                <div class="">
+                <form class="d-flex" role="search" method="post" action="/listings/search">
+                    <input class="form-control me-2 search-input" type="search" placeholder="Search" aria-label="Search" name="search">
+                    <button class="btn btn-outline-search" type="submit"> <i class="fa-solid fa-magnifying-glass ml-2"></i> Search</button>
+                  </form>
+                </div>
+            </div>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="/listings/new">Wanderlust your home</a>
+                <% if(!currUser) { %>
+                    <a class="nav-link" aria-current="page" href="/signup"><b>SignUp</b></a>
+                    <a class="nav-link" href="/login"><b>Login</b></a>
+                    <% } %>
+                        <% if(currUser) { %>
+                            <a class="nav-link" href="/logout"><b>Log Out</b></a>
+                            <% } %>
             </div>
         </div>
     </div>

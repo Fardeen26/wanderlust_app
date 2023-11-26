@@ -1,8 +1,8 @@
     <% layout("/layouts/boilerplate") %>
     <div class="row"> 
         <div class="col-8 offset-2">
-    <h3>Fill the form</h3>
-    <form method="post" action="/listings/<%= listing._id %>?_method=PUT" class="needs-validation" novalidate>
+    <h3>Fill the form</h3> 
+    <form method="post" action="/listings/<%= listing._id %>?_method=PUT" class="needs-validation" novalidate enctype="multipart/form-data">
         <div class="mb-3">
         <label for="title" class="form-label">Title</label>
         <input type="text" name="listing[title]" value="<%= listing.title %>" class="form-control" required>
@@ -16,8 +16,31 @@
         </div>
 
         <div class="mb-3">
-        <label for="title" class="form-label">Image URL</label>
-        <input type="text" name="listing[image]" value="<%= listing.image %>" class="form-control">
+            <img src="<%= originalImageUrl %>" alt="">
+        </div>
+
+        <div class="mb-3">
+        <label for="title" class="form-label">Upload New Image</label>
+        <input type="file" name="listing[image]" class="form-control" >
+        </div>
+
+        <div class="mb-3">
+            <label for="catagory" class="form-label">Chose a Catagory</label>
+            <select class="form-select" id="autoSizingSelect" name="listing[catagory]">
+                <option selected><%= listing.catagory %></option>
+                <option value="Trending">Trending</option>
+                <option value="Pool">Pool</option>
+                <option value="Rooms">Rooms</option>
+                <option value="Tropical">Tropical</option>
+                <option value="Beachfront">Beachfront</option>
+                <option value="Cave">Cave</option>
+                <option value="Hotel">Hotel</option>
+                <option value="historical">Historical</option>
+                <option value="Tower">Tower</option>
+                <option value="food">food</option>
+                <option value="location">Location</option>
+                <option value="none">none</option>
+              </select>
         </div>
 
         <div class="row">
