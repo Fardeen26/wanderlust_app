@@ -1,4 +1,22 @@
 <% layout("/layouts/boilerplate") %>
+
+    <style>
+        .review-title-container {
+            display: flex;
+        }
+
+        .review-title-box-2 {
+            margin-left: 100px;
+        }
+
+        .review-delete-button {
+            font-size: 11px;
+        }
+    </style>
+    <script>
+        const mapToken = "<%= process.env.MAP_TOKEN %>";
+        const listing = <%- JSON.stringify(listing) %>
+    </script>
     <div class="row">
         <div class="col-8 offset-3 mt-3">
             <h3>
@@ -43,10 +61,6 @@
                     <h4>Leave a Review</h4>
                     <form method="post" action="/listings/<%= listing._id %>/reviews" novalidate
                         class="needs-validation">
-                        <!-- <div class="mt-3">
-                            <label for="rating" class="form-label">Rating</label>
-                            <input type="range" min="1" max="5" id="rating" name="review[rating]" class="form-range">
-                        </div> -->
                         <div class="mt-3">
                             <label for="rating" class="form-label">Rating</label>
                             <fieldset class="starability-coinFlip">
@@ -65,7 +79,7 @@
                             </fieldset>
                         </div>
 
-                        <div class="mt-3">
+                        <div class="mt-2">
                             <label for="comment" class="form-label">Comments</label>
                             <textarea name="review[comment]" id="comment" cols="30" rows="5" class="form-control"
                                 required></textarea>
@@ -75,52 +89,53 @@
                     </form>
                     <hr>
                     <% } %>
-                    <% if(listing.reviews.length > 0) { %>
-                        <h4>All Reviews</h4>
-                        <div class="row mt-5">
-                            <% for(review of listing.reviews) { %>
-                                <div class="card col-5 mb-3 ms-4">
-                                    <div class="card-body">
-                                        <h5 class="card-title" style="font-size: 17px;">
-                                            <%= review.author.username %>
-                                        </h5>
-                                        <h5 class="card-subtitle mb-2 text-body-secondary" style="font-size: 14px;">September 2023</h5>
-                                        <p class="starability-result card-text" data-rating="<%= review.rating %>" style="width: 10px;"></p>
-                                        <p class="card-text">
-                                            <%= review.comment %>
-                                        </p>
-                                        <% if(currUser){ %>
-                                        <form method="post"
-                                            action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE">
-                                            <button class="btn btn-sm btn-dark">Delete</button>
-                                        </form>
-                                        <% } %>
+                        <% if(listing.reviews.length> 0) { %>
+                            <h4>All Reviews</h4>
+                            <div class="row mt-3">
+                                <% for(review of listing.reviews) { %>
+                                    <div class="card col-5 mb-3 ms-4">
+                                        <div class="card-body">
+
+                                            <div class="card-title review-title-container" style="font-size: 17px;">
+                                                <div class="review-title-box-1">
+                                                    <h5>
+                                                        <%= review.author.username %> <span
+                                                                class="card-subtitle mb-2 text-body-secondary"
+                                                                style="font-size: 11px; margin-left: 5px;">
+                                                                <%= review.createdAt.toLocaleString("en-US", {
+                                                                    dateStyle: "long" }); %>
+                                                            </span>
+                                                    </h5>
+                                                </div>
+                                                <div class="review-title-box-2">
+                                                    <% if(currUser){ %>
+                                                        <form method="post"
+                                                            action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE">
+                                                            <% if(review.author.username==currUser.username) {%>
+                                                                <button
+                                                                    class="btn btn-sm btn-dark review-delete-button">Delete</button>
+                                                                <% } %>
+                                                        </form>
+                                                        <% } %>
+                                                </div>
+                                            </div>
+
+                                            <p class="starability-result card-text" data-rating="<%= review.rating %>">
+                                            </p>
+                                            <p class="card-text">
+                                                <%= review.comment %>
+                                            </p>
+
+                                        </div>
                                     </div>
-                                </div>
-                                <% } %>
-                        </div>
-                        <% } %>
+                                    <% } %>
+                            </div>
+                            <% } %>
             </div>
             <div class="col-8 offset-3 mt-4">
                 <h3>Where you'll be</h3>
-                <div id="map">
-
-                </div>
+                <div id="map"></div>
             </div>
- 
-            <script>
-                // TO MAKE THE MAP APPEAR YOU MUST
-                // ADD YOUR ACCESS TOKEN FROM
-                // https://account.mapbox.com
-                // https://www.google.com
-                mapboxgl.accessToken = 'pk.eyJ11joiZGVsdGEtc3R1ZHV1bn0iLCJhIjoiY2xVMDK OMTVhMTJ3ZDJrcGR5ZDFkaH14c139.Gj2VU1wvxc7rFVt5 E4KLOQ';
-            const map = new mapboxgl.Map({
-            container: 'map', // container ID
-            // Choose from Mapbox's core styles, or make your own style with Mapbox Studio
-            style: 'mapbox://styles/mapbox/streets-v12', // style URL
-            center: [-74.5, 40], // starting position [lng, lat]
-            zoom: 9 // starting zoom
-            });
-            </script>
-
             <br><br>
+
+            <script src="/js/map.js"></script>

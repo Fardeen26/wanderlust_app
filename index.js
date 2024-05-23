@@ -5,7 +5,7 @@ const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 const path = require("path");
-const methodOverride = require("method-override"); 
+const methodOverride = require("method-override");  
 const ejsMate = require("ejs-mate"); 
 const ExpressError = require("./utils/expressError.js"); 
 const session = require("express-session");
@@ -71,12 +71,12 @@ passport.deserializeUser(User.deserializeUser());
 app.use((req, res, next) => {
     res.locals.success = req.flash("success"); 
     res.locals.error = req.flash("error");
-    res.locals.currUser = req.user;
+    res.locals.currUser = req.user; 
     next();
 });
 
 app.use("/listings", listingRouter);
-app.use("/listings/:id/reviews", reviewRouter);
+app.use("/listings/:id/reviews", reviewRouter); 
 app.use("/", userRouter);
 
 app.all("*", (req, res, next) => {
